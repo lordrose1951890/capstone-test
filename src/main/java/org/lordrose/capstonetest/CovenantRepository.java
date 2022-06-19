@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CovenantRepository extends JpaRepository<Covenant, Long> {
+public interface CovenantRepository extends JpaRepository<Covenant, String> {
 }

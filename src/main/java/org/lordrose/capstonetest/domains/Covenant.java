@@ -3,6 +3,8 @@ package org.lordrose.capstonetest.domains;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
@@ -19,7 +21,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -41,8 +42,11 @@ import java.util.List;
 public class Covenant {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "cov-generator")
+    @GenericGenerator(name = "cov-generator",
+            parameters = @Parameter(name = "prefix", value = "COV"),
+            strategy = "org.lordrose.capstonetest.domains.converters.StringPrefixNumericIdGenerator")
+    private String id;
 
     @Column(name = "reporter")
     private String reporter;

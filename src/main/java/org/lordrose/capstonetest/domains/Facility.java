@@ -3,9 +3,12 @@ package org.lordrose.capstonetest.domains;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -23,7 +26,11 @@ import java.util.List;
 public class Facility {
 
     @Id
-    private Long id;
+    @GeneratedValue(generator = "cov-generator")
+    @GenericGenerator(name = "cov-generator",
+            parameters = @Parameter(name = "prefix", value = "FAC"),
+            strategy = "org.lordrose.capstonetest.domains.converters.StringPrefixNumericIdGenerator")
+    private String id;
 
     @Column(name = "name")
     private String name;

@@ -3,6 +3,8 @@ package org.lordrose.capstonetest.domains;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.lordrose.capstonetest.domains.constants.ReviewPeriodStatus;
@@ -13,7 +15,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,8 +30,11 @@ import java.time.LocalDate;
 public class ReviewPeriod {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "cov-generator")
+    @GenericGenerator(name = "cov-generator",
+            parameters = @Parameter(name = "prefix", value = "RP"),
+            strategy = "org.lordrose.capstonetest.domains.converters.StringPrefixNumericIdGenerator")
+    private String id;
 
     @Column(name = "reporting_date")
     private LocalDate reportingDate;
