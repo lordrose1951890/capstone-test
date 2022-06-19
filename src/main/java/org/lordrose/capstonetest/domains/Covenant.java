@@ -3,9 +3,15 @@ package org.lordrose.capstonetest.domains;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 import org.lordrose.capstonetest.domains.constants.CovenantFrequency;
 import org.lordrose.capstonetest.domains.constants.CovenantStatus;
 import org.lordrose.capstonetest.domains.constants.CovenantType;
+import org.lordrose.capstonetest.domains.converters.CovenantFrequencyPostgreEnum;
+import org.lordrose.capstonetest.domains.converters.CovenantTypePostgreEnum;
+import org.lordrose.capstonetest.domains.converters.StringPostgreEnum;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,6 +31,11 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@TypeDefs({
+        @TypeDef(name = "covenant_type", typeClass = CovenantTypePostgreEnum.class),
+        @TypeDef(name = "covenant_frequency", typeClass = CovenantFrequencyPostgreEnum.class),
+        @TypeDef(name = "covenant_status", typeClass = StringPostgreEnum.class)
+})
 @Entity
 @Table(name = "tbl_covenant")
 public class Covenant {
@@ -37,6 +48,7 @@ public class Covenant {
     private String reporter;
 
     @Enumerated(EnumType.STRING)
+    @Type(type = "covenant_type")
     private CovenantType type;
 
     @Column(name = "first_reporting_date")
@@ -46,9 +58,11 @@ public class Covenant {
     private LocalDate reportingExpiryDate;
 
     @Enumerated(EnumType.STRING)
+    @Type(type = "covenant_frequency")
     private CovenantFrequency frequency;
 
     @Enumerated(EnumType.STRING)
+    @Type(type = "covenant_status")
     private CovenantStatus status;
 
     @ManyToMany(mappedBy = "covenants")

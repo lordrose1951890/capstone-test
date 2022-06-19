@@ -40,7 +40,7 @@ public class TestController {
         return "ok";
     }
 
-    @GetMapping
+    @GetMapping("/rp")
     public String getTest() {
         periodRepository.findAll()
                 .forEach(period -> System.out.printf("id: %s, status: %s",
@@ -49,7 +49,16 @@ public class TestController {
         return "ok";
     }
 
-    @GetMapping("/{statusParam}")
+    @GetMapping("/cov")
+    public String getTestCov() {
+        covenantRepository.findAll()
+                .forEach(covenant -> System.out.printf("id: %s, status: %s",
+                        covenant.getId(), covenant.getStatus().textValue));
+
+        return "ok";
+    }
+
+    @GetMapping("/rp/{statusParam}")
     public ResponseEntity<String> findTest(@PathVariable String statusParam) {
         ReviewPeriodStatus status;
         try {
