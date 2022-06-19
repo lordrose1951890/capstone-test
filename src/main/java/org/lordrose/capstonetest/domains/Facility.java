@@ -23,9 +23,9 @@ import java.util.List;
 public class Facility {
 
     @Id
-    private long id;
+    private Long id;
 
-    @Column(name = "")
+    @Column(name = "name")
     private String name;
 
     @Column(name = "start_date")
